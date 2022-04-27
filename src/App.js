@@ -40,7 +40,7 @@ function App() {
     fetch('https://vote-for-donte.herokuapp.com/curr-vote')
       .catch( e => { console.log(e); });
     console.log(counter);
-  }, [counter])
+  })
 
   return (
     <div className="App">
@@ -49,7 +49,7 @@ function App() {
         <h1>So Donte's kind of bad at coding and reset the counter. 😅</h1>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Current <code>Voters:</code> {counter}
+          Current <code>Voters:</code> {counter === 0 ? "Pending..." : counter}
         </p>
         <button
           className="App-link"

@@ -11,7 +11,7 @@ function App() {
   const [counter, setCounter] = useState(0);
 
   const voteItem = async (e) => {
-    if (true/*!Cookies.get('hasVoted')*/) {
+    if (!Cookies.get('hasVoted')) {
       await fetch('https://vote-for-donte.herokuapp.com/vote', {mode: "no-cors"})
         .catch( e => { console.log(e); });
       Cookies.set('hasVoted', true, {expires: 1});

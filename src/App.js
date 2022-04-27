@@ -34,6 +34,8 @@ function App() {
     channel.bind('vote', data => {
       setCounter(data.votes)
     });
+    fetch('https://vote-for-donte.herokuapp.com/curr-vote')
+      .catch( e => { console.log(e); });
   }, []);
   useEffect(() => {
     fetch('https://vote-for-donte.herokuapp.com/curr-vote')

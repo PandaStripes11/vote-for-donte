@@ -12,12 +12,17 @@ function App() {
 
   const voteItem = async (e) => {
     if (!Cookies.get('hasVoted')) {
+      console.log("voted!");
       await fetch('https://vote-for-donte.herokuapp.com/vote')
         .catch( e => { console.log(e); });
       Cookies.set('hasVoted', true, {expires: 1});
-    } else {
+    } 
+    else {
       e.target.textContent = "Gather friends to raise the counter!"
     }
+  }
+  const removeCookie = () => {
+    Cookies.remove('hasVoted', false, {expires: 1});
   }
 
   useEffect(() => {
@@ -38,6 +43,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <button className='rm-cookie' onClick={removeCookie}>Rm 🍪</button>
         <h1>So Donte's kind of bad at coding and reset the counter. 😅</h1>
         <img src={logo} className="App-logo" alt="logo" />
         <p>

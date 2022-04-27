@@ -8,7 +8,7 @@ import Cookies from 'js-cookie';
 import Pusher from 'pusher-js';
 
 function App() {
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState();
 
   const voteItem = async (e) => {
     if (!Cookies.get('hasVoted')) {
@@ -34,12 +34,12 @@ function App() {
     channel.bind('vote', data => {
       setCounter(data.votes)
     });
-    fetch('https://vote-for-donte.herokuapp.com/curr-vote')
-      .catch( e => { console.log(e); });
+    setCounter(0);
   }, []);
   useEffect(() => {
     fetch('https://vote-for-donte.herokuapp.com/curr-vote')
       .catch( e => { console.log(e); });
+    console.log(counter);
   }, [counter])
 
   return (

@@ -34,19 +34,21 @@ function App() {
     channel.bind('vote', data => {
       setCounter(data.votes)
     });
-    setCounter(0);
   }, []);
   useEffect(() => {
-    fetch('https://vote-for-donte.herokuapp.com/curr-vote')
-      .catch( e => { console.log(e); });
+    async function updateVotes() {
+      await fetch('https://vote-for-donte.herokuapp.com/curr-vote')
+        .catch( e => { console.log(e); });
+    }
+    updateVotes()
     console.log(counter);
-  })
+  }, [counter])
 
   return (
     <div className="App">
       <header className="App-header">
         <button className='rm-cookie' onClick={removeCookie}>Rm 🍪</button>
-        <h1>So Donte's kind of bad at coding and reset the counter. 😅</h1>
+        <h1>Counter Fixed!</h1>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Current <code>Voters:</code> {counter === 0 ? "Pending..." : counter}

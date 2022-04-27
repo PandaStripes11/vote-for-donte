@@ -33,16 +33,25 @@ function App() {
     const channel = pusher.subscribe('counter');
     channel.bind('vote', data => {
       setCounter(data.votes)
+      console.log(data.votes)
     });
-  }, []);
-  useEffect(() => {
     async function updateVotes() {
-      await fetch('https://vote-for-donte.herokuapp.com/curr-vote')
+      return await fetch('https://vote-for-donte.herokuapp.com/curr-vote')
+        .then(response => {
+          if (response.ok) {
+            return response.json()
+          }
+          throw new Error("Networking Error!");
+        })
         .catch( e => { console.log(e); });
     }
-    updateVotes()
-    console.log(counter);
-  }, [counter])
+    let interval = setInterval(() => {
+      updateVotes()
+    }, 1000)
+    return () => {
+      clearInterval(interval)
+    }
+  }, []);
 
   return (
     <div className="App">
@@ -51,7 +60,7 @@ function App() {
         <h1>Counter Fixed!</h1>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Current <code>Voters:</code> {counter === 0 ? "Pending..." : counter}
+          Current <code>Voters:</code> {!counter ? "Pending..." : counter}
         </p>
         <button
           className="App-link"

@@ -12,7 +12,7 @@ function App() {
 
   const voteItem = async (e) => {
     if (!Cookies.get('hasVoted')) {
-      await fetch('https://vote-for-donte.herokuapp.com/vote', {mode: "no-cors"})
+      await fetch('https://vote-for-donte.herokuapp.com/vote')
         .catch( e => { console.log(e); });
       Cookies.set('hasVoted', true, {expires: 1});
     } else {
@@ -31,13 +31,14 @@ function App() {
     });
   }, []);
   useEffect(() => {
-    fetch('https://vote-for-donte.herokuapp.com/curr-vote', {mode: "no-cors"})
+    fetch('https://vote-for-donte.herokuapp.com/curr-vote')
       .catch( e => { console.log(e); });
   }, [counter])
 
   return (
     <div className="App">
       <header className="App-header">
+        <h1>So Donte's kind of bad at coding and reset the counter. 😅</h1>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Current <code>Voters:</code> {counter}

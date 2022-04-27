@@ -12,7 +12,7 @@ function App() {
 
   const voteItem = async (e) => {
     if (!Cookies.get('hasVoted')) {
-      await fetch('http://localhost:5000/vote')
+      await fetch('https://git.heroku.com/vote-for-donte.git/vote')
         .catch( e => { console.log(e); });
       Cookies.set('hasVoted', true, {expires: 1});
     } else {
@@ -31,7 +31,7 @@ function App() {
     });
   }, []);
   useEffect(() => {
-    fetch('http://localhost:5000/curr-vote')
+    fetch('https://git.heroku.com/vote-for-donte.git/curr-vote')
       .catch( e => { console.log(e); });
   }, [counter])
 

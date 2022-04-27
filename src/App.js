@@ -1,22 +1,54 @@
-import logo from './logo.svg';
+import logo from './sticker.png';
 import './App.css';
 
+import React from 'react';
+import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
+
+import Pusher from 'pusher-js';
+
 function App() {
+  const [counter, setCounter] = useState(0);
+
+  const voteItem = async (e) => {
+    if (!Cookies.get('hasVoted')) {
+      await fetch('http://localhost:5000/vote')
+        .catch( e => { console.log(e); });
+      Cookies.set('hasVoted', true, {expires: 1});
+    } else {
+      e.target.textContent = "Gather friends to raise the counter!"
+    }
+  }
+
+  useEffect(() => {
+    const pusher = new Pusher("cbcaeb94965a2f834945", {
+      cluster: 'us2',
+      useTLS: true
+    });
+    const channel = pusher.subscribe('counter');
+    channel.bind('vote', data => {
+      setCounter(data.votes)
+    });
+  }, []);
+  useEffect(() => {
+    fetch('http://localhost:5000/curr-vote')
+      .catch( e => { console.log(e); });
+  }, [counter])
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Current <code>Voters:</code> {counter}
         </p>
-        <a
+        <button
           className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
           rel="noopener noreferrer"
+          onClick={voteItem}
         >
-          Learn React
-        </a>
+          Show Your Support
+        </button>
       </header>
     </div>
   );

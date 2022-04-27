@@ -12,7 +12,7 @@ function App() {
 
   const voteItem = async (e) => {
     if (!Cookies.get('hasVoted')) {
-      await fetch('https://git.heroku.com/vote-for-donte.git/vote', {mode: "no-cors"})
+      await fetch('https://vote-for-donte.herokuapp.com/vote', {mode: "no-cors"})
         .catch( e => { console.log(e); });
       Cookies.set('hasVoted', true, {expires: 1});
     } else {
@@ -31,7 +31,7 @@ function App() {
     });
   }, []);
   useEffect(() => {
-    fetch('https://git.heroku.com/vote-for-donte.git/curr-vote', {mode: "no-cors"})
+    fetch('https://vote-for-donte.herokuapp.com/curr-vote', {mode: "no-cors"})
       .catch( e => { console.log(e); });
   }, [counter])
 
